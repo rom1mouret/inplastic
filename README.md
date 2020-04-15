@@ -94,7 +94,7 @@ I have uploaded a pre-trained network. The model can be evaluated right away.
 ./test_model.py model_28_14_3
 ```
 
-Otherwise, refer `train_model.py --help` to train a new model.
+Otherwise, refer to `train_model.py --help` to train a new model.
 
 
 ### Requirements
