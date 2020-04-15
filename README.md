@@ -79,11 +79,13 @@ To reproduce similar results, move [Fruit-360 dataset](https://www.kaggle.com/mo
 Here is what it looks like when I execute `find . -maxdepth 2 -type d -ls` in my working directory:
 
 ```bash
+.
 ./fruits-360
 ./fruits-360/test-multiple_fruits
 ./fruits-360/Test
 ./fruits-360/papers
 ./fruits-360/Training
+./images
 ```
 
 I have uploaded a pre-trained network. The model can be evaluated right away.
