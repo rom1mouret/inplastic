@@ -12,7 +12,9 @@ Second, for the array to store relevant information about the agent's environmen
 Such descriptions are to be cast in terms of object persistence, hierarchical object structures, 3D physics and so on. 
 It is challenging to say the least, but it is arguably *not* a lifelong business.
 
-![results](/images/system.png)
+<p align="center">
+  <img src="/images/system.png" width="350">
+</p>
 
 I haven't included the compressor in my code.
 I imagine the array quickly gets too large for real life purposes, so you might want to routinely compress its content thanks to yet another hard-wired neural network.
@@ -42,10 +44,12 @@ In practice, this is true for the most part, but the bunch is sometimes spoiled 
 
 A simple but passable strategy is to compare memorized classes with unknown fruits using [Mahalanobis distance](https://en.wikipedia.org/wiki/Mahalanobis_distance).
 
-![results](/images/implementation.png)
+<p align="center">
+  <img src="/images/implementation.png" width="350">
+</p>
 
 My experiments show that a better strategy is to train a univariate RBF Kernel Density Estimator for each dimension of the description vectors.
-We'll use negative log density as distance, as provided by [scikit's score_samples function](https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KernelDensity.html#sklearn.neighbors.KernelDensity.score_samples)
+We'll use negative log density as distance, as provided by [scikit's score_samples function](https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KernelDensity.html#sklearn.neighbors.KernelDensity.score_samples).
 
 
 ## Fruitful bagging
@@ -63,7 +67,9 @@ This seems to be confirmed experimentally with `cosine_similarity.py`.
 
 ## Results
 
-![results](/images/results.png)
+<p align="center">
+  <img src="/images/results.png">
+</p>
 
 ## Reproducibility
 
