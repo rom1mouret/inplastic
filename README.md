@@ -1,23 +1,6 @@
-This is my first attempt at implementing a neural network in an [incremental learning](https://en.wikipedia.org/wiki/Incremental_learning) setting, while avoiding the pitfalls of catastrophic forgetting and [catastrophic interference](https://en.wikipedia.org/wiki/Catastrophic_interference).
+This is my first attempt at implementing a neural network in a [lifelong learning](http://lifelongml.org) setting, while avoiding the pitfalls of catastrophic forgetting and [catastrophic interference](https://en.wikipedia.org/wiki/Catastrophic_interference).
 
-I want to test a plain few-shot ~~learning~~ memorization approach and see how far this goes without plasticity.
-Adult human brains are known to be plastic to some degree, so, obviously, this can only go so far.
-
-What does it take to incrementally "learn" without plasticity?
-
-First, we have to part ways with the traditional deep learning setup wherein knowledge and experience are stored in the artificial neural connections that translate sensory inputs into actions. In such a setup, acquiring new knowledge interferes with previously learned knowledge.
-Instead, our system will store experience in a boring collection of immutable objects, such as an associative array mapping *processed* sensory inputs to actions. Needless to say, associative arrays are interference-free.
-
-Second, for the array to store relevant information about the agent's environment, as opposed to an avalanche of random sensory data, a hard-wired world model has to produce descriptions that are extremely rich and fine-grained, manifesting invariance that facilitates generalization and reasoning.
-Such descriptions are to be cast in terms of object persistence, hierarchical object structures, 3D physics and so on. 
-It is challenging to say the least, but it is arguably *not* a lifelong business.
-
-<p align="center">
-  <img src="/images/system.png" width="350">
-</p>
-
-I haven't included the compressor in my code.
-I imagine the array quickly gets too large for real life purposes, so you might want to routinely compress its content thanks to yet another hard-wired neural network.
+As a first step, I want to test the limits of a plain [few-shot learning](https://en.wikipedia.org/wiki/One-shot_learning) approach and see how far it goes without any incremental adjustment of the main model, i.e. by simple [transfer](https://en.wikipedia.org/wiki/Transfer_learning) to unseen classes.
 
 ## Starting small
 
@@ -34,13 +17,13 @@ dist = pairwise_distance(batch1, batch2)
 loss = mean(diagonal(dist)) + max_dist - mean(min(max_dist, dist))
 ```
 
-To be clear, the intra-class distance we wish to minimize is included in both `diagonal(dist)` and `mean(min(max_dist, dist))`, but it has a comparatively lower weight in the latter operand.
+To be clear, the intra-class distance we wish to minimize is included in both `diagonal(dist)` and `mean(min(max_dist, dist))` but it has a comparatively lower weight in the latter operand.
 
 
 ## Memory retrieval
 
-Given a fruit class, we hope that all the description vectors are roughly identical across all the class examples.
-In practice, this is true for the most part, but the bunch is sometimes spoiled by a few bad apples.
+Given a fruit class, we hope that all the description vectors are roughly identical across all the class examples, as expected from optimizing the loss function above.
+In practice, while this is true for the most part, the bunch can be spoiled by a few bad apples.
 
 A simple but passable strategy is to compare memorized classes with unknown fruits using [Mahalanobis distance](https://en.wikipedia.org/wiki/Mahalanobis_distance).
 
@@ -97,8 +80,42 @@ I have uploaded a pre-trained network. The model can be evaluated right away.
 Otherwise, refer to `train_model.py --help` to train a new model.
 
 
-### Requirements
+#### Requirements
 
 Tested with Python 3.6.9 on Mint 19.1 but should work with Python >= 3.5 on any OS.
 
 You will find PyPi requirements in `requirements.txt`.
+
+## General approach
+
+Adult human brains are known to be plastic to some degree, so I don't expect basic transfer learning to pave the way for human-level learning abilities.
+That being said, there is evidence that some parts of the brain are not plastic enough to [reorganize after brain damage](https://www.youtube.com/watch?v=HPViT0sbJ8o). Hence, there is hope that some core functions of the brain, such as task switching, do not require deep rewiring at adulthood, even when presented with new tasks.
+
+What does it take to incrementally "learn" without deep rewiring?
+
+First, we have to part ways with the traditional deep learning setup wherein new knowledge and experience are stored in the neural connections that translate sensory inputs into actions. In such a setup, acquiring new knowledge interferes with previously learned knowledge.
+Instead, our system stores experience in a boring collection of immutable objects, such as an associative array mapping *processed* sensory inputs to actions. Needless to say, associative arrays are interference-free.
+
+Second, a hard-wired world model has to produce descriptions that are extremely rich and fine-grained, manifesting invariance that facilitates generalization and reasoning.
+Such descriptions are to be cast in terms of object permanence, hierarchical object structures, 3D physics and so on. 
+It is challenging to say the least, but it is arguably *not* a lifelong business.
+
+<p align="center">
+  <img src="/images/system.png" width="350">
+</p>
+
+I haven't included the compressor in my code.
+I imagine the array quickly gets too large for real life purposes, so you might want to routinely compress its content thanks to yet another hard-wired algorithm.
+
+#### Notes on multi-task learning
+
+In my humble opinion, the crux of the problem is not solved by conventional [multi-task learning](https://en.wikipedia.org/wiki/Multi-task_learning), which leaves open the questions of how to switch between tasks and how to refine task skills in a way that withstands [interference](https://en.wikipedia.org/wiki/Catastrophic_interference).
+
+In an [MTL](https://en.wikipedia.org/wiki/Multi-task_learning) setting, either you know beforehand the task to be executed, or you purposely run all the tasks in parallel. There are some situations where executing all the tasks at once makes sense, but this doesn't fit the general case. At the end of the day, you will have to train an interference-free model to route sensory inputs to the relevant tasks or to inhibit task outputs *a posteriori* (task post-selection).
+
+I will try to challenge my own assumptions in a follow-up project. For the time being, I will argue that MTL in its current form, while being a possible piece of the puzzle, does not address the hardest problems raised by lifelong learning. MTL and [curriculum learning](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.149.4701) help a lot with regard to training efficiency and scalability, but any MTL algorithm, however advanced, is functionally equivalent to separating tasks in a trivial manner, casting doubt on whether any actionable progress is made toward in-the-wild lifelong learning.
+On this view, MTL and shallow "memory mapping" operate at a different level and potentially complement each other.
+
+<p align="center">
+  <img src="/images/mtl.png" width="350">
+</p>
