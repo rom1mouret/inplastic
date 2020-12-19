@@ -106,16 +106,3 @@ It is challenging to say the least, but it is arguably *not* a lifelong busines
 
 I haven't included the compressor in my code.
 I imagine the array quickly gets too large for real life purposes, so you might want to routinely compress its content thanks to yet another hard-wired algorithm.
-
-#### Notes on multi-task learning
-
-In my humble opinion, the crux of the problem is not solved by conventional [multi-task learning](https://en.wikipedia.org/wiki/Multi-task_learning), which leaves open the questions of how to switch between tasks and how to refine task skills in a way that withstands [interference](https://en.wikipedia.org/wiki/Catastrophic_interference).
-
-In an [MTL](https://en.wikipedia.org/wiki/Multi-task_learning) setting, either you know beforehand the task to be executed, or you purposely run all the tasks in parallel. There are some situations where executing all the tasks at once makes sense, but this doesn't fit the general case. At the end of the day, you will have to train an interference-free model to route sensory inputs to the relevant tasks or to inhibit task outputs *a posteriori* (task post-selection).
-
-I will try to challenge my own assumptions in a follow-up project. For the time being, I will argue that MTL in its current form, while being a possible piece of the puzzle, does not address the hardest problems raised by lifelong learning. MTL and [curriculum learning](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.149.4701) help a lot with regard to training efficiency and scalability, but any MTL algorithm, however advanced, is functionally equivalent to separating tasks in a trivial manner, casting doubt on whether any actionable progress is made toward in-the-wild lifelong learning.
-On this view, MTL and shallow "memory mapping" operate at a different level and potentially complement each other.
-
-<p align="center">
-  <img src="/images/mtl.png" width="350">
-</p>
