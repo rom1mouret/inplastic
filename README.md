@@ -4,7 +4,7 @@ As a first step, I want to test the limits of a plain [few-shot learning](https:
 
 ## Starting small
 
-The system will learn to distinguish fruits from [Fruit-360 dataset](https://www.kaggle.com/moltean/fruits).
+The system will learn to distinguish types of fruit from the [Fruit-360 dataset](https://www.kaggle.com/moltean/fruits).
 It consists of 120 classes of fruits and vegetables. Each fruit/vegetable is photographed from over 100 angles.
 
 The world model is built by training a CNN in a [siamese](https://en.wikipedia.org/wiki/Siamese_neural_network) fashion. It takes an image as input and generates a 90-dimensional vector as output.
@@ -58,7 +58,7 @@ This seems to be confirmed experimentally with `cosine_similarity.py`.
 
 Full disclosure: Training and evaluating take a while. I haven't run the full cycle enough times to guarantee a confidence interval.
 
-To reproduce similar results, move [Fruit-360 dataset](https://www.kaggle.com/moltean/fruits) to the root of the repository.
+To reproduce similar results, move the [Fruit-360 dataset directory](https://www.kaggle.com/moltean/fruits) to the root of the repository.
 Here is what it looks like when I execute `find . -maxdepth 2 -type d -ls` in my working directory:
 
 ```bash
@@ -105,4 +105,4 @@ It is challenging to say the least, but it is arguably *not* a lifelong busines
 </p>
 
 I haven't included the compressor in my code.
-I imagine the array quickly gets too large for real life purposes, so you might want to routinely compress its content thanks to yet another hard-wired algorithm.
+I imagine the array quickly gets too large for real-life purposes, so you might want to routinely compress its content thanks to yet another hard-wired algorithm.
